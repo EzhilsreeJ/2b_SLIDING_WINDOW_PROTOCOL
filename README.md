@@ -59,7 +59,7 @@ if __name__ == "__main__":
 ```
 ## OUPUT
 
-![image](https://github.com/EzhilsreeJ/2b_SLIDING_WINDOW_PROTOCOL/assets/144870412/2c9f41d3-6c6f-47f3-914d-3263bc80cd53)
+![image](https://github.com/EzhilsreeJ/2b_SLIDING_WINDOW_PROTOCOL/assets/144870412/ee52ec65-d169-4279-a301-7798cac3c463)
 
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed
