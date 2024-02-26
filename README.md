@@ -9,37 +9,57 @@
 6. Stop the Program
 ## PROGRAM
 ```py
-def send_frame(frame):
-    # Simulate sending the frame to the server
-    print(f"Sending frame: {frame}")
-    return True  # Assume frame reaches the server successfully
+import time
 
-def receive_ack():
-    # Simulate receiving an ACK signal from the server
-    return True  # Assume ACK received successfully
+def sender(frames, window_size):
+    base = 0
+    next_seq_num = 0
 
-def main():
-    try:
-        frame_size = int(input("Enter the frame size: "))
-        frame_number = 0
+    while base < len(frames):
+        for i in range(base, min(base + window_size, len(frames))):
+            print(f"Sending Frame {next_seq_num}: {frames[i]}")
+            next_seq_num += 1
 
-        while True:
-            frame = f"Frame {frame_number}"
-            if send_frame(frame):
-                if receive_ack():
-                    print(f"ACK received for {frame}")
-                    frame_number += 1
-                else:
-                    print(f"ACK not received for {frame}. Resending...")
+        ack_received = False
+        while not ack_received:
+            ack = input("Enter ACK number received from server: ")
+            if ack.isdigit() and base <= int(ack) < next_seq_num:
+                base = int(ack) + 1
+                ack_received = True
             else:
-                print(f"Frame {frame} lost. Resending...")
+                print("Invalid ACK. Resending frames...")
 
-    except ValueError:
-        print("Invalid input. Please enter a valid frame size.")
+def receiver(frames, window_size):
+    expected_frame = 0
+
+    while expected_frame < len(frames):
+        for i in range(expected_frame, min(expected_frame + window_size, len(frames))):
+            print(f"Received Frame {i}: {frames[i]}")
+            time.sleep(1)  # Simulating processing time
+            print(f"Sending ACK for Frame {i}")
+            time.sleep(1)  # Simulating transmission time
+            print(f"ACK {i} sent")
+
+        expected_frame += window_size
 
 if __name__ == "__main__":
-    main()
+    frame_size = int(input("Enter frame size: "))
+    frames = [f"Frame {i}" for i in range(frame_size)]
+
+    window_size = int(input("Enter window size: "))
+
+    print("Sender:")
+    sender(frames, window_size)
+
+    print("\nReceiver:")
+    receiver(frames, window_size)
+
+    print("Program stopped.")
+
 ```
 ## OUPUT
+
+![image](https://github.com/EzhilsreeJ/2b_SLIDING_WINDOW_PROTOCOL/assets/144870412/2c9f41d3-6c6f-47f3-914d-3263bc80cd53)
+
 ## RESULT
 Thus, python program to perform stop and wait protocol was successfully executed
